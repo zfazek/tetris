@@ -1,0 +1,26 @@
+#include "table.hpp"
+#include "ui.hpp"
+#include "ui_text.hpp"
+
+#include <chrono>
+#include <thread>
+
+int main() {
+    Table table;
+    UiPtr gui = std::make_unique<UiText>();
+
+    while (!gui->quit) {
+        std::chrono::system_clock::time_point prev_time = std::chrono::system_clock::now();
+        gui->draw(table);
+        if (!gui->pause) {
+            std::chrono::system_clock::time_point current_time = std::chrono::system_clock::now();
+            float elapsed_time = std::chrono::duration<float, std::milli>(current_time - prev_time).count() / 1000.0f;
+            prev_time = current_time;
+            if (!gui->end) {
+                gui->end = table.update(elapsed_time);
+            }
+        }
+        gui->update(table);
+    }
+    puts("");
+}
