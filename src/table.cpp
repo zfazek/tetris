@@ -9,6 +9,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <stdio.h>
 
 Table::Table() {
     srand(time(NULL));
@@ -47,7 +48,7 @@ void Table::new_tetromino() {
             next_tetromino = std::make_unique<ZTetromino>();
             break;
     }
-    next_tetromino->x = 14;
+    next_tetromino->x = 12;
     next_tetromino->y = 4;
 }
 
@@ -191,7 +192,7 @@ void Table::put_tetromino() {
 
 bool Table::update(const float elapsed_time) {
     delta_time += elapsed_time;
-    if (delta_time < max_delta_time) {
+    if (delta_time < max_delta_time * 1 / (1 + get_level() * 0.1)) {
         return false;
     }
     delta_time = 0.0f;

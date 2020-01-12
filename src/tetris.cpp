@@ -9,8 +9,8 @@ int main() {
     Table table;
     UiPtr gui = std::make_unique<UiText>();
 
+    std::chrono::system_clock::time_point prev_time = std::chrono::system_clock::now();
     while (!gui->quit) {
-        std::chrono::system_clock::time_point prev_time = std::chrono::system_clock::now();
         gui->draw(table);
         if (!gui->pause) {
             std::chrono::system_clock::time_point current_time = std::chrono::system_clock::now();
