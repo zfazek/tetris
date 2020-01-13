@@ -227,7 +227,7 @@ void mainloop() {
 
 int main() {
     const int simulate_infinite_loop = 1;
-    const int fps = 60;
+    const int fps = -1;
     emscripten_set_main_loop(mainloop, fps, simulate_infinite_loop);
 
     return EXIT_SUCCESS;
