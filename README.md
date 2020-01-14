@@ -1,4 +1,4 @@
 # tetris
 Tetris clone for the console and the web
 
-[http://ongroa.com/tetris]
+[ongroa.com/tetris](http://ongroa.com/tetris)
