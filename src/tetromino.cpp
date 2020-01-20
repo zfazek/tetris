@@ -1,15 +1,8 @@
 #include "tetromino.hpp"
 
-Tetromino::Tetromino() {
-    clear_buffer();
-}
+#include "table.hpp"
 
-void Tetromino::clear_buffer() {
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
-            buffer[i][j] = EMPTY;
-        }
-    }
+Tetromino::Tetromino() {
 }
 
 const std::map<char, int> Tetromino::COLOR_IDXS = {

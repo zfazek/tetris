@@ -1,19 +1,26 @@
 #pragma once
 
+#include <array>
 #include <map>
 #include <memory>
 
+class Tetromino;
+typedef std::unique_ptr<Tetromino> TetrominoPtr;
+
 class Tetromino {
 public:
+    static constexpr int SIZE = 4;
+    typedef std::array<std::array<char, SIZE>, SIZE> BufferT;
+
     Tetromino();
     virtual ~Tetromino() = default;
-    void clear_buffer();
     virtual char get_block() const = 0;
+    virtual TetrominoPtr rotate() = 0;
 
     int x;
     int y;
+    int buffer_index = 0;
 
-    static constexpr int SIZE = 4;
     static constexpr char EMPTY = ' ';
 
     static constexpr int COLOR_BLACK_IDX = 0;
@@ -27,7 +34,5 @@ public:
 
     static const std::map<char, int> COLOR_IDXS;
 
-    char buffer[SIZE][SIZE];
+    BufferT buffer;
 };
-
-typedef std::unique_ptr<Tetromino> TetrominoPtr;

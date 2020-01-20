@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "tetromino.hpp"
 
 class Table {
@@ -8,6 +10,7 @@ public:
     void init();
     void new_tetromino();
     void rotate_tetromino();
+    bool would_collide(const Tetromino::BufferT& tmp_buffer);
     void clear_buffer();
     bool update(float elapsed_time);
     bool is_empty_below_tetromino() const;
@@ -20,7 +23,8 @@ public:
     static constexpr int WIDTH = 10;
     static constexpr int HEIGHT = 24;
 
-    char buffer[HEIGHT][WIDTH];
+    std::array<std::array<char, WIDTH>, HEIGHT> buffer;
+
     TetrominoPtr tetromino;
     TetrominoPtr next_tetromino;
 

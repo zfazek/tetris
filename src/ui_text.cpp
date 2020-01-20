@@ -118,7 +118,7 @@ void UiText::update(Table& table) {
             break;
         case KEY_UP:
             if (!end && !pause) {
-                table.rotate_tetromino();
+                table.tetromino->rotate();
             }
             break;
         case KEY_DOWN:
