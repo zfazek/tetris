@@ -59,37 +59,37 @@ void Table::new_tetromino() {
 }
 
 void Table::rotate_tetromino() {
-    char tmp_buffer[tetromino->SIZE][tetromino->SIZE];
-    for (int i = 0; i < tetromino->SIZE; ++i) {
-        for (int j = 0; j < tetromino->SIZE; ++j) {
-            const int new_i = tetromino->SIZE - 1 - j;
-            const int new_j = i;
-            if (tetromino->buffer[i][j] != Tetromino::EMPTY) {
-                if (buffer[tetromino->y + new_i][tetromino->x + new_j] != Tetromino::EMPTY) {
-                    return;
-                }
-                if (tetromino->x + new_j < 0) {
-                    return;
-                }
-                if (tetromino->x + new_j >= WIDTH) {
-                    return;
-                }
-                if (tetromino->y + new_i < 0) {
-                    return;
-                }
-                if (tetromino->y + new_i >= HEIGHT) {
-                    return;
-                }
-            }
-            tmp_buffer[new_i][new_j] = tetromino->buffer[i][j];
-        }
-    }
-    for (int i = 0; i < tetromino->SIZE; ++i) {
-        for (int j = 0; j < tetromino->SIZE; ++j) {
-            tetromino->buffer[i][j] = tmp_buffer[i][j];
-        }
+    TetrominoPtr rotated_tetromino = tetromino->rotated();
+    if (!collides(rotated_tetromino->buffer)) {
+        tetromino = std::move(rotated_tetromino);
     }
 }
+
+bool Table::collides(const Tetromino::BufferT& tmp_buffer) {
+    for (int i = 0; i < Tetromino::SIZE; ++i) {
+        for (int j = 0; j < Tetromino::SIZE; ++j) {
+            if (tmp_buffer[i][j] != Tetromino::EMPTY) {
+                if (buffer[tetromino->y + i][tetromino->x + j] != Tetromino::EMPTY) {
+                    return true;
+                }
+                if (tetromino->x + j < 0) {
+                    return true;
+                }
+                if (tetromino->x + j >= WIDTH) {
+                    return true;
+                }
+                if (tetromino->y + i < 0) {
+                    return true;
+                }
+                if (tetromino->y + i >= HEIGHT) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 
 void Table::clear_buffer() {
     for (int i = 0; i < HEIGHT; ++i) {

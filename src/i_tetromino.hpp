@@ -1,19 +1,34 @@
 #pragma once
 
+#include <memory>
+#include <vector>
+
 #include "tetromino.hpp"
 
-class ITetromino : public Tetromino {
+class ITetromino : public TetrominoBase<ITetromino> {
 public:
-    ITetromino() {
-        for (int i = 0; i < SIZE; ++i) {
-            buffer[1][i] = BLOCK;
-        }
-    }
-
     char get_block() const override {
         return BLOCK;
     }
 
+    static const std::vector<BufferT> BUFFERS;
+
 private:
     static constexpr char BLOCK = 'X';
+};
+
+const std::vector<Tetromino::BufferT> ITetromino::BUFFERS {
+    // TODO: check
+    {{
+        {EMPTY, EMPTY, EMPTY, EMPTY},
+        {EMPTY, EMPTY, EMPTY, EMPTY},
+        {BLOCK, BLOCK, BLOCK, BLOCK},
+        {EMPTY, EMPTY, EMPTY, EMPTY},
+    }},
+    {{
+        {EMPTY, EMPTY, BLOCK, EMPTY},
+        {EMPTY, EMPTY, BLOCK, EMPTY},
+        {EMPTY, EMPTY, BLOCK, EMPTY},
+        {EMPTY, EMPTY, BLOCK, EMPTY},
+    }},
 };
