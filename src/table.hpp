@@ -5,6 +5,7 @@
 class Table {
 public:
     Table();
+    void init();
     void new_tetromino();
     void rotate_tetromino();
     void clear_buffer();

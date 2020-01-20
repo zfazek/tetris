@@ -13,7 +13,13 @@
 
 Table::Table() {
     srand(time(NULL));
+    init();
+}
+
+void Table::init() {
     clear_buffer();
+    cleared_lines = 0;
+    score = 0;
     new_tetromino();
     new_tetromino();
 }

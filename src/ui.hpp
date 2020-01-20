@@ -13,6 +13,7 @@ public:
     bool end = false;
     bool quit = false;
     bool pause = false;
+    bool wait_for_restart = false;
 };
 
 typedef std::unique_ptr<Ui> UiPtr;

@@ -18,6 +18,9 @@ int main() {
             prev_time = current_time;
             if (!gui->end) {
                 gui->end = table.update(elapsed_time);
+                if (gui->end) {
+                    gui->wait_for_restart = true;
+                }
             }
         }
         gui->update(table);

@@ -129,6 +129,14 @@ void UiText::update(Table& table) {
         case 'p':
             pause = !pause;
             break;
+        case 'r':
+            if (wait_for_restart) {
+                table.init();
+                pause = false;
+                end = false;
+                wait_for_restart = false;
+            }
+            break;
         case 'q':
             quit = true;
             break;
