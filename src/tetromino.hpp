@@ -54,7 +54,7 @@ public:
     TetrominoPtr rotated() {  // for reference, see https://www.retrogames.cz/play_1030-NES.php
         TetrominoPtr rotated_tetromino = std::make_unique<Derived>(derived);
         rotated_tetromino->buffer_index = (buffer_index + 1) % derived.BUFFERS.size();
-        rotated_tetromino->buffer = derived.BUFFERS[buffer_index];
+        rotated_tetromino->buffer = derived.BUFFERS[rotated_tetromino->buffer_index];
         return rotated_tetromino;
     }
 
