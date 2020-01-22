@@ -1,4 +1,10 @@
 #include "table.hpp"
+
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
+#include <stdio.h>
+
 #include "i_tetromino.hpp"
 #include "j_tetromino.hpp"
 #include "l_tetromino.hpp"
@@ -6,10 +12,6 @@
 #include "s_tetromino.hpp"
 #include "t_tetromino.hpp"
 #include "z_tetromino.hpp"
-
-#include <cstdlib>
-#include <ctime>
-#include <stdio.h>
 
 Table::Table() {
     srand(time(NULL));
@@ -30,7 +32,16 @@ void Table::new_tetromino() {
         tetromino->x = WIDTH / 2 - tetromino->SIZE / 2;
         tetromino->y = 0;
     }
-    const int tetromino_idx = rand() % 7;
+
+    // see https://tetris.fandom.com/wiki/Random_Generator
+    static std::vector<int> tetromino_indices;
+    if (tetromino_indices.empty()) {
+        tetromino_indices = {0, 1, 2, 3, 4, 5, 6};
+        std::random_shuffle(tetromino_indices.begin(), tetromino_indices.end());
+    }
+    const int tetromino_idx = tetromino_indices.back();
+    tetromino_indices.pop_back();
+
     switch (tetromino_idx) {
         case 0:
             next_tetromino = std::make_unique<ITetromino>();
@@ -89,7 +100,6 @@ bool Table::collides(const Tetromino::BufferT& tmp_buffer) {
     }
     return false;
 }
-
 
 void Table::clear_buffer() {
     for (int i = 0; i < HEIGHT; ++i) {
