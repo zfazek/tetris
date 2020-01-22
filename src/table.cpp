@@ -1,4 +1,10 @@
 #include "table.hpp"
+
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
+#include <stdio.h>
+
 #include "i_tetromino.hpp"
 #include "j_tetromino.hpp"
 #include "l_tetromino.hpp"
@@ -6,10 +12,6 @@
 #include "s_tetromino.hpp"
 #include "t_tetromino.hpp"
 #include "z_tetromino.hpp"
-
-#include <cstdlib>
-#include <ctime>
-#include <stdio.h>
 
 Table::Table() {
     srand(time(NULL));
@@ -30,7 +32,16 @@ void Table::new_tetromino() {
         tetromino->x = WIDTH / 2 - tetromino->SIZE / 2;
         tetromino->y = 0;
     }
-    const int tetromino_idx = rand() % 7;
+
+    // see https://tetris.fandom.com/wiki/Random_Generator
+    static std::vector<int> tetromino_indices;
+    if (tetromino_indices.empty()) {
+        tetromino_indices = {0, 1, 2, 3, 4, 5, 6};
+        std::random_shuffle(tetromino_indices.begin(), tetromino_indices.end());
+    }
+    const int tetromino_idx = tetromino_indices.back();
+    tetromino_indices.pop_back();
+
     switch (tetromino_idx) {
         case 0:
             next_tetromino = std::make_unique<ITetromino>();
@@ -59,36 +70,35 @@ void Table::new_tetromino() {
 }
 
 void Table::rotate_tetromino() {
-    char tmp_buffer[tetromino->SIZE][tetromino->SIZE];
-    for (int i = 0; i < tetromino->SIZE; ++i) {
-        for (int j = 0; j < tetromino->SIZE; ++j) {
-            const int new_i = tetromino->SIZE - 1 - j;
-            const int new_j = i;
-            if (tetromino->buffer[i][j] != Tetromino::EMPTY) {
-                if (buffer[tetromino->y + new_i][tetromino->x + new_j] != Tetromino::EMPTY) {
-                    return;
+    TetrominoPtr rotated_tetromino = tetromino->rotated();
+    if (!collides(rotated_tetromino->buffer)) {
+        tetromino = std::move(rotated_tetromino);
+    }
+}
+
+bool Table::collides(const Tetromino::BufferT& tmp_buffer) {
+    for (int i = 0; i < Tetromino::SIZE; ++i) {
+        for (int j = 0; j < Tetromino::SIZE; ++j) {
+            if (tmp_buffer[i][j] != Tetromino::EMPTY) {
+                if (buffer[tetromino->y + i][tetromino->x + j] != Tetromino::EMPTY) {
+                    return true;
                 }
-                if (tetromino->x + new_j < 0) {
-                    return;
+                if (tetromino->x + j < 0) {
+                    return true;
                 }
-                if (tetromino->x + new_j >= WIDTH) {
-                    return;
+                if (tetromino->x + j >= WIDTH) {
+                    return true;
                 }
-                if (tetromino->y + new_i < 0) {
-                    return;
+                if (tetromino->y + i < 0) {
+                    return true;
                 }
-                if (tetromino->y + new_i >= HEIGHT) {
-                    return;
+                if (tetromino->y + i >= HEIGHT) {
+                    return true;
                 }
             }
-            tmp_buffer[new_i][new_j] = tetromino->buffer[i][j];
         }
     }
-    for (int i = 0; i < tetromino->SIZE; ++i) {
-        for (int j = 0; j < tetromino->SIZE; ++j) {
-            tetromino->buffer[i][j] = tmp_buffer[i][j];
-        }
-    }
+    return false;
 }
 
 void Table::clear_buffer() {
