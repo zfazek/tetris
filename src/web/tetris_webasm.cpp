@@ -34,7 +34,7 @@ TTF_Font *font;
 emscripten_fetch_attr_t fetch_attr;
 static char request_data[100];
 
-static constexpr int JOYSTICK_DEAD_ZONE = 8000;
+// static constexpr int JOYSTICK_DEAD_ZONE = 8000;
 SDL_Joystick* gGameController = NULL;
 
 class UiSdl : public Ui {

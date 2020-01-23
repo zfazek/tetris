@@ -1,12 +1,3 @@
-set (CMAKE_CXX_FLAGS "-std=c++14 -Wall -Werror -Wextra -g -O2")
-
-add_executable(tetris
-    tetris.cpp
-    tetromino.cpp
-    table.cpp
-    ui_text.cpp
-)
-
-target_link_libraries(tetris
-    ncurses
-)
+add_subdirectory(lib)
+add_subdirectory(text)
+add_subdirectory(web)
