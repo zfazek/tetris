@@ -9,7 +9,7 @@ public:
     void new_tetromino();
     void rotate_tetromino();
     void clear_buffer();
-    bool update(float elapsed_time);
+    bool update(const float elapsed_time);
     bool is_empty_below_tetromino() const;
     bool is_empty_right_to_tetromino() const;
     bool is_empty_left_to_tetromino() const;

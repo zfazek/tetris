@@ -14,10 +14,11 @@ int main() {
         gui->draw(table);
         if (!gui->pause) {
             std::chrono::system_clock::time_point current_time = std::chrono::system_clock::now();
-            float elapsed_time = std::chrono::duration<float, std::milli>(current_time - prev_time).count() / 1000.0f;
+            const float elapsed_sec =
+                std::chrono::duration<float, std::milli>(current_time - prev_time).count() / 1000.0f;
             prev_time = current_time;
             if (!gui->end) {
-                gui->end = table.update(elapsed_time);
+                gui->end = table.update(elapsed_sec);
                 if (gui->end) {
                     gui->wait_for_restart = true;
                 }
