@@ -3,13 +3,14 @@
 # emmake make index
 # sudo cp src/web/index.* ../score.php /var/www/html/tetris
 
-set(CMAKE_CXX_FLAGS "-std=c++14 -Wall -Wextra -g -O2")
 set(CMAKE_EXE_LINKER_FLAGS "-s ASYNCIFY=1 -s WASM=1 -s FETCH=1 -s USE_SDL=2 -s USE_SDL_TTF=2 --preload-file ocraext.ttf")
 
 include_directories(../lib)
 
 add_executable(index
     tetris_webasm.cpp
-    ../lib/table.cpp
-    ../lib/tetromino.cpp
+)
+
+target_link_libraries(index
+    libtetris
 )
