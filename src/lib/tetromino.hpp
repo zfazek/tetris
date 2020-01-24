@@ -8,10 +8,14 @@ public:
     Tetromino();
     virtual ~Tetromino() = default;
     void clear_buffer();
+    void move_down();
+    void move_left();
+    void move_right();
+    int get_x() const;
+    void set_x(const int x_);
+    int get_y() const;
+    void set_y(const int y_);
     virtual char get_block() const = 0;
-
-    int x;
-    int y;
 
     static constexpr int SIZE = 4;
     static constexpr char EMPTY = ' ';
@@ -28,6 +32,12 @@ public:
     static const std::map<char, int> COLOR_IDXS;
 
     char buffer[SIZE][SIZE];
+
+protected:
+    int x;
+    int y;
+
 };
 
 typedef std::unique_ptr<Tetromino> TetrominoPtr;
+

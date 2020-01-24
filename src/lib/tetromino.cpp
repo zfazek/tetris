@@ -12,6 +12,34 @@ void Tetromino::clear_buffer() {
     }
 }
 
+int Tetromino::get_x() const {
+    return x;
+}
+
+void Tetromino::set_x(const int x_) {
+    x = x_;
+}
+
+int Tetromino::get_y() const {
+    return y;
+}
+
+void Tetromino::set_y(const int y_) {
+    y = y_;
+}
+
+void Tetromino::move_down() {
+    ++y;
+}
+
+void Tetromino::move_left() {
+    --x;
+}
+
+void Tetromino::move_right() {
+    ++x;
+}
+
 const std::map<char, int> Tetromino::COLOR_IDXS = {
     {'#', COLOR_BLACK_IDX},
     {'X', COLOR_CYAN_IDX},

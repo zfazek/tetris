@@ -67,8 +67,8 @@ void UiText::draw_tetromino(const Table& table) const {
     for (int i = 0; i < table.tetromino->SIZE; ++i) {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
             if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
-                mvaddch(table.tetromino->y + i + 1,
-                        table.tetromino->x + j + 1,
+                mvaddch(table.tetromino->get_y() + i + 1,
+                        table.tetromino->get_x() + j + 1,
                         table.tetromino->buffer[i][j]);
             }
         }
@@ -79,8 +79,8 @@ void UiText::draw_tetromino(const Table& table) const {
 void UiText::draw_next_tetromino(const Table& table) const {
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
-            mvaddch(table.next_tetromino->y + i + 1,
-                    table.next_tetromino->x + j + 1,
+            mvaddch(table.next_tetromino->get_y() + i + 1,
+                    table.next_tetromino->get_x() + j + 1,
                     Tetromino::EMPTY);
         }
     }
@@ -88,8 +88,8 @@ void UiText::draw_next_tetromino(const Table& table) const {
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
             if (table.next_tetromino->buffer[i][j] == table.next_tetromino->get_block()) {
-                mvaddch(table.next_tetromino->y + i + 1,
-                        table.next_tetromino->x + j + 1,
+                mvaddch(table.next_tetromino->get_y() + i + 1,
+                        table.next_tetromino->get_x() + j + 1,
                         table.next_tetromino->buffer[i][j]);
             }
         }
@@ -103,17 +103,17 @@ void UiText::update(Table& table) {
     switch (key) {
         case KEY_LEFT:
             if (!end && !pause && table.is_empty_left_to_tetromino()) {
-                --table.tetromino->x;
+                table.tetromino->move_left();
             }
             break;
         case KEY_RIGHT:
             if (!end && !pause && table.is_empty_right_to_tetromino()) {
-                ++table.tetromino->x;
+                table.tetromino->move_right();
             }
             break;
         case ' ':
             while (!end && !pause && table.is_empty_below_tetromino()) {
-                ++table.tetromino->y;
+                table.tetromino->move_down();
             }
             break;
         case KEY_UP:
@@ -123,7 +123,7 @@ void UiText::update(Table& table) {
             break;
         case KEY_DOWN:
             if (!end && !pause && table.is_empty_below_tetromino()) {
-                ++table.tetromino->y;
+                table.tetromino->move_down();
             }
             break;
         case 'p':

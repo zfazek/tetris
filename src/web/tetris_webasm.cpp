@@ -104,17 +104,17 @@ public:
                 switch (event.key.keysym.sym) {
                 case SDLK_LEFT:
                     if (!end && !pause && table.is_empty_left_to_tetromino()) {
-                        --table.tetromino->x;
+                        table.tetromino->move_left();
                     }
                     break;
                 case SDLK_RIGHT:
                     if (!end && !pause && table.is_empty_right_to_tetromino()) {
-                        ++table.tetromino->x;
+                        table.tetromino->move_right();
                     }
                     break;
                 case SDLK_SPACE:
                     while (!end && !pause && table.is_empty_below_tetromino()) {
-                        ++table.tetromino->y;
+                        table.tetromino->move_down();
                     }
                     break;
                 case SDLK_UP:
@@ -124,7 +124,7 @@ public:
                     break;
                 case SDLK_DOWN:
                     if (!end && !pause && table.is_empty_below_tetromino()) {
-                        ++table.tetromino->y;
+                        table.tetromino->move_down();
                     }
                     break;
                 case SDLK_p:
@@ -147,7 +147,7 @@ public:
                 puts("joystick");
                 if (event.jaxis.which == 0 && event.jaxis.axis == 0 && event.jaxis.value < -JOYSTICK_DEAD_ZONE) {
                     if (!end && !pause && table.is_empty_left_to_tetromino()) {
-                        --table.tetromino->x;
+                        table.tetromino->move_left();
                     }
                 }
                 break;
