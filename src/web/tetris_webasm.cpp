@@ -200,8 +200,8 @@ private:
         for (int i = 0; i < table.tetromino->SIZE; ++i) {
             for (int j = 0; j < table.tetromino->SIZE; ++j) {
                 if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
-                    draw_rect(table.tetromino->x + j + 1,
-                              table.tetromino->y + i + 1,
+                    draw_rect(table.tetromino->get_x() + j + 1,
+                              table.tetromino->get_y() + i + 1,
                               table.tetromino->buffer[i][j]);
                 }
             }
@@ -211,16 +211,16 @@ private:
     void draw_next_tetromino(const Table& table) const {
         for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
             for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
-                draw_rect(table.next_tetromino->x + j + 1,
-                          table.next_tetromino->y + i + 1,
+                draw_rect(table.next_tetromino->get_x() + j + 1,
+                          table.next_tetromino->get_y() + i + 1,
                           Tetromino::EMPTY);
             }
         }
         for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
             for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
                 if (table.next_tetromino->buffer[i][j] == table.next_tetromino->get_block()) {
-                    draw_rect(table.next_tetromino->x + j + 1,
-                              table.next_tetromino->y + i + 1,
+                    draw_rect(table.next_tetromino->get_x() + j + 1,
+                              table.next_tetromino->get_y() + i + 1,
                               table.next_tetromino->buffer[i][j]);
                 }
             }
