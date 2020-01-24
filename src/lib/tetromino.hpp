@@ -33,7 +33,7 @@ public:
 
     char buffer[SIZE][SIZE];
 
-protected:
+private:
     int x;
     int y;
 

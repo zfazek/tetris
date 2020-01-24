@@ -1,5 +1,4 @@
 #include "ui_text.hpp"
-#include "table.hpp"
 
 #include <ncurses.h>
 
@@ -102,43 +101,28 @@ void UiText::update(Table& table) {
     flushinp();
     switch (key) {
         case KEY_LEFT:
-            if (!end && !pause && table.is_empty_left_to_tetromino()) {
-                table.tetromino->move_left();
-            }
+            handle_left_key(table);
             break;
         case KEY_RIGHT:
-            if (!end && !pause && table.is_empty_right_to_tetromino()) {
-                table.tetromino->move_right();
-            }
+            handle_right_key(table);
             break;
         case ' ':
-            while (!end && !pause && table.is_empty_below_tetromino()) {
-                table.tetromino->move_down();
-            }
+            handle_space_key(table);
             break;
         case KEY_UP:
-            if (!end && !pause) {
-                table.rotate_tetromino();
-            }
+            handle_up_key(table);
             break;
         case KEY_DOWN:
-            if (!end && !pause && table.is_empty_below_tetromino()) {
-                table.tetromino->move_down();
-            }
+            handle_down_key(table);
             break;
         case 'p':
-            pause = !pause;
+            handle_p_key(table);
             break;
         case 'r':
-            if (wait_for_restart) {
-                table.init();
-                pause = false;
-                end = false;
-                wait_for_restart = false;
-            }
+            handle_r_key(table);
             break;
         case 'q':
-            quit = true;
+            handle_q_key(table);
             break;
     }
 }
