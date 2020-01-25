@@ -33,7 +33,7 @@ void UiText::init() {
     init_pair(Tetromino::COLOR_WHITE_IDX, COLOR_WHITE, COLOR_WHITE);
 }
 
-void UiText::draw(const Table& table) const {
+void UiText::draw() const {
     for (int j = 0; j < table.WIDTH + 2; ++j) {
         mvaddch(0, j, HORIZONTAL_BORDER);
         mvaddch(table.HEIGHT + 1, j, HORIZONTAL_BORDER);
@@ -52,8 +52,8 @@ void UiText::draw(const Table& table) const {
             mvaddch(i + 1, table.WIDTH + 1, VERTICAL_BORDER);
         }
     }
-    draw_tetromino(table);
-    draw_next_tetromino(table);
+    draw_tetromino();
+    draw_next_tetromino();
     mvprintw(0, table.WIDTH + 3, "Level: %d", table.get_level());
     mvprintw(1, table.WIDTH + 3, "Lines: %d", table.get_cleared_lines());
     mvprintw(2, table.WIDTH + 3, "Score: %d", table.get_score());
@@ -61,7 +61,7 @@ void UiText::draw(const Table& table) const {
     refresh();
 }
 
-void UiText::draw_tetromino(const Table& table) const {
+void UiText::draw_tetromino() const {
     attron(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.tetromino->get_block())));
     for (int i = 0; i < table.tetromino->SIZE; ++i) {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
@@ -75,7 +75,7 @@ void UiText::draw_tetromino(const Table& table) const {
     attroff(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.tetromino->get_block())));
 }
 
-void UiText::draw_next_tetromino(const Table& table) const {
+void UiText::draw_next_tetromino() const {
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
             mvaddch(table.next_tetromino->get_y() + i + 1,
@@ -96,33 +96,33 @@ void UiText::draw_next_tetromino(const Table& table) const {
     attroff(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.next_tetromino->get_block())));
 }
 
-void UiText::update(Table& table) {
+void UiText::update() {
     int key = getch();
     flushinp();
     switch (key) {
         case KEY_LEFT:
-            handle_left_key(table);
+            handle_left_key();
             break;
         case KEY_RIGHT:
-            handle_right_key(table);
+            handle_right_key();
             break;
         case ' ':
-            handle_space_key(table);
+            handle_space_key();
             break;
         case KEY_UP:
-            handle_up_key(table);
+            handle_up_key();
             break;
         case KEY_DOWN:
-            handle_down_key(table);
+            handle_down_key();
             break;
         case 'p':
-            handle_p_key(table);
+            handle_p_key();
             break;
         case 'r':
-            handle_r_key(table);
+            handle_r_key();
             break;
         case 'q':
-            handle_q_key(table);
+            handle_q_key();
             break;
     }
 }

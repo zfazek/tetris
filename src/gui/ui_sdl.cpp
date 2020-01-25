@@ -1,13 +1,5 @@
 #include "ui_sdl.hpp"
 
-SDL_Window *window;
-SDL_Renderer *renderer;
-SDL_Surface *surface_message;
-SDL_Texture *texture;
-SDL_Event event;
-SDL_Rect rect;
-TTF_Font *font;
-
 UiSdl::UiSdl() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
@@ -16,7 +8,7 @@ UiSdl::UiSdl() {
     SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer);
     TTF_Init();
     font = TTF_OpenFont("ocraext.ttf", HEIGHT / 30);
-    if (font == NULL) {
+    if (font == nullptr) {
         printf("TTF_OpenFont: %s\n", TTF_GetError());
     }
 }
@@ -32,7 +24,7 @@ void UiSdl::clear_background() const {
     SDL_RenderClear(renderer);
 }
 
-void UiSdl::draw(const Table& table) const {
+void UiSdl::draw() const {
     for (int j = 0; j < table.WIDTH + 2; ++j) {
         draw_rect(j, 0, '#');
         draw_rect(j, table.HEIGHT + 1, '#');
@@ -47,8 +39,8 @@ void UiSdl::draw(const Table& table) const {
             draw_rect(table.WIDTH + 1, i + 1, '#');
         }
     }
-    draw_tetromino(table);
-    draw_next_tetromino(table);
+    draw_tetromino();
+    draw_next_tetromino();
 
     static constexpr int TEXT_HEIGHT = HEIGHT / 30;
     static constexpr int TEXT_WIDTH = WIDTH / 4;
@@ -65,34 +57,34 @@ void UiSdl::draw(const Table& table) const {
     SDL_RenderPresent(renderer);
 }
 
-void UiSdl::update(Table& table) {
+void UiSdl::update() {
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_LEFT:
-                        handle_left_key(table);
+                        handle_left_key();
                         break;
                     case SDLK_RIGHT:
-                        handle_right_key(table);
+                        handle_right_key();
                         break;
                     case SDLK_SPACE:
-                        handle_space_key(table);
+                        handle_space_key();
                         break;
                     case SDLK_UP:
-                        handle_up_key(table);
+                        handle_up_key();
                         break;
                     case SDLK_DOWN:
-                        handle_down_key(table);
+                        handle_down_key();
                         break;
                     case SDLK_p:
-                        handle_p_key(table);
+                        handle_p_key();
                         break;
                     case SDLK_r:
-                        handle_r_key(table);
+                        handle_r_key();
                         break;
                     case SDLK_q:
-                        handle_q_key(table);
+                        handle_q_key();
                         break;
                 }
         }
@@ -102,6 +94,7 @@ void UiSdl::update(Table& table) {
 void UiSdl::draw_rect(const int x, const int y, const char c) const {
     static constexpr int RECT_SIZE = WIDTH / 40;
     static constexpr int BORDER_SIZE = 1;
+    static SDL_Rect rect;
     rect.x = x * RECT_SIZE + BORDER_SIZE;
     rect.y = y * RECT_SIZE + BORDER_SIZE;
     rect.h = RECT_SIZE - 2 * BORDER_SIZE;
@@ -138,7 +131,7 @@ void UiSdl::draw_rect(const int x, const int y, const char c) const {
     SDL_RenderFillRect(renderer, &rect);
 }
 
-void UiSdl::draw_tetromino(const Table& table) const {
+void UiSdl::draw_tetromino() const {
     for (int i = 0; i < table.tetromino->SIZE; ++i) {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
             if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
@@ -150,7 +143,7 @@ void UiSdl::draw_tetromino(const Table& table) const {
     }
 }
 
-void UiSdl::draw_next_tetromino(const Table& table) const {
+void UiSdl::draw_next_tetromino() const {
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
             draw_rect(table.next_tetromino->get_x() + j + 1,
@@ -171,13 +164,14 @@ void UiSdl::draw_next_tetromino(const Table& table) const {
 
 void UiSdl::draw_text(const int x, const int y, const int w, const int h,
         const std::string& message, const SDL_Color& color) const {
-    surface_message = TTF_RenderText_Solid(font, message.c_str(), color);
-    texture = SDL_CreateTextureFromSurface(renderer, surface_message);
+    static SDL_Rect rect;
+    SDL_Surface *surface_message = TTF_RenderText_Solid(font, message.c_str(), color);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface_message);
     rect.x = x;
     rect.y = y;
     rect.w = w;
     rect.h = h;
-    SDL_RenderCopy(renderer, texture, NULL, &rect);
+    SDL_RenderCopy(renderer, texture, nullptr, &rect);
     SDL_DestroyTexture(texture);
     SDL_FreeSurface(surface_message);
 }

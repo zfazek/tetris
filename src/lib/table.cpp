@@ -1,18 +1,17 @@
 #include "table.hpp"
-#include "i_tetromino.hpp"
-#include "j_tetromino.hpp"
-#include "l_tetromino.hpp"
-#include "o_tetromino.hpp"
-#include "s_tetromino.hpp"
-#include "t_tetromino.hpp"
-#include "z_tetromino.hpp"
+#include "tetromino_i.hpp"
+#include "tetromino_j.hpp"
+#include "tetromino_l.hpp"
+#include "tetromino_o.hpp"
+#include "tetromino_s.hpp"
+#include "tetromino_t.hpp"
+#include "tetromino_z.hpp"
 
 #include <cstdlib>
 #include <ctime>
-#include <stdio.h>
 
 Table::Table() {
-    srand(time(NULL));
+    srand(time(nullptr));
     init();
 }
 

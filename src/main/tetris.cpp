@@ -2,10 +2,9 @@
 #include "ui_text.hpp"
 
 int main() {
-    Table table;
-    UiPtr gui = std::make_unique<UiText>();
+    UiPtr gui = std::make_shared<UiText>();
 
     while (gui->game_state != GameState::QUIT) {
-        mainloop(gui, table);
+        mainloop(gui);
     }
 }

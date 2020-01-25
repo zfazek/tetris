@@ -40,4 +40,3 @@ private:
 };
 
 typedef std::unique_ptr<Tetromino> TetrominoPtr;
-
