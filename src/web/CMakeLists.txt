@@ -5,9 +5,6 @@
 
 set(CMAKE_EXE_LINKER_FLAGS "-s ASYNCIFY=1 -s WASM=1 -s FETCH=1 -s USE_SDL=2 -s USE_SDL_TTF=2 --preload-file ocraext.ttf")
 
-include_directories(../gui)
-include_directories(../lib)
-
 add_executable(index
     tetris_webasm.cpp
 )
