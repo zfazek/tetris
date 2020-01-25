@@ -1,4 +1,5 @@
 add_library(libtetris
-    tetromino.cpp
+    mainloop.cpp
     table.cpp
+    tetromino.cpp
 )

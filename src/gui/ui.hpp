@@ -24,4 +24,4 @@ public:
     GameState game_state;
 };
 
-typedef std::unique_ptr<Ui> UiPtr;
+typedef std::shared_ptr<Ui> UiPtr;
