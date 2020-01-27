@@ -5,7 +5,7 @@ UiSdl::UiSdl() {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
         exit(1);
     }
-    SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &window, &renderer);
+    SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC, &window, &renderer);
     TTF_Init();
     font = TTF_OpenFont("ocraext.ttf", HEIGHT / 30);
     if (font == nullptr) {
