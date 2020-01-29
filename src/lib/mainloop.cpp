@@ -6,7 +6,10 @@ std::chrono::system_clock::time_point prev_time = std::chrono::system_clock::now
 
 void mainloop(UiPtr gui) {
     gui->clear_background();
-    gui->draw();
+    if (gui->table.dirty) {
+        gui->draw();
+        gui->table.dirty = false;
+    }
     if (gui->game_state == GameState::GAME) {
         std::chrono::system_clock::time_point current_time = std::chrono::system_clock::now();
         const float elapsed_sec =

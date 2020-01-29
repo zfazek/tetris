@@ -23,6 +23,7 @@ public:
     char buffer[HEIGHT][WIDTH];
     TetrominoPtr tetromino;
     TetrominoPtr next_tetromino;
+    bool dirty = true;
 
 private:
     float max_delta_time = 0.3f;

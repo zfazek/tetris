@@ -3,7 +3,7 @@ add_executable(tetris
 )
 
 target_link_libraries(tetris
-    libtetris
+    tetris-lib
     gui_txt
     ncurses
 )
@@ -13,7 +13,7 @@ add_executable(tetris-gui
 )
 
 target_link_libraries(tetris-gui
-    libtetris
+    tetris-lib
     gui_sdl
     SDL2
     SDL2_ttf
