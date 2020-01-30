@@ -124,6 +124,9 @@ void UiText::update() {
         case 'q':
             handle_q_key();
             break;
+        case 'a':
+            handle_a_key();
+            break;
     }
 }
 

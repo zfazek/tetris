@@ -197,7 +197,7 @@ void Table::put_tetromino() {
 
 bool Table::update(const float elapsed_time) {
     delta_time += elapsed_time;
-    if (delta_time < max_delta_time * 1 / (1 + get_level() * 0.05)) {
+    if (delta_time < max_delta_time / (1 + get_level() * 0.05)) {
         return false;
     }
     dirty = true;

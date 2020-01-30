@@ -20,9 +20,12 @@ public:
     void handle_p_key();
     void handle_r_key();
     void handle_q_key();
+    void handle_a_key();
+    void make_ai_move();
 
     Table table;
     GameState game_state;
+    bool ai_mode = false;
 };
 
 typedef std::shared_ptr<Ui> UiPtr;

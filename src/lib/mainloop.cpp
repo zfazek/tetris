@@ -21,4 +21,7 @@ void mainloop(UiPtr gui, const bool always_dirty) {
         }
     }
     gui->update();
+    if (gui->ai_mode) {
+        gui->make_ai_move();
+    }
 }

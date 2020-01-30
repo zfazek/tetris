@@ -86,6 +86,8 @@ void UiSdl::update() {
                     case SDLK_q:
                         handle_q_key();
                         break;
+                    case SDLK_a:
+                        handle_a_key();
                 }
         }
     }
@@ -136,8 +138,8 @@ void UiSdl::draw_tetromino() const {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
             if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
                 draw_rect(table.tetromino->get_x() + j + 1,
-                        table.tetromino->get_y() + i + 1,
-                        table.tetromino->buffer[i][j]);
+                          table.tetromino->get_y() + i + 1,
+                          table.tetromino->buffer[i][j]);
             }
         }
     }
@@ -147,16 +149,16 @@ void UiSdl::draw_next_tetromino() const {
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
             draw_rect(table.next_tetromino->get_x() + j + 1,
-                    table.next_tetromino->get_y() + i + 1,
-                    Tetromino::EMPTY);
+                      table.next_tetromino->get_y() + i + 1,
+                      Tetromino::EMPTY);
         }
     }
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
             if (table.next_tetromino->buffer[i][j] == table.next_tetromino->get_block()) {
                 draw_rect(table.next_tetromino->get_x() + j + 1,
-                        table.next_tetromino->get_y() + i + 1,
-                        table.next_tetromino->buffer[i][j]);
+                          table.next_tetromino->get_y() + i + 1,
+                          table.next_tetromino->buffer[i][j]);
             }
         }
     }
