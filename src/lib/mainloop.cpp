@@ -4,9 +4,9 @@
 
 std::chrono::system_clock::time_point prev_time = std::chrono::system_clock::now();
 
-void mainloop(UiPtr gui) {
+void mainloop(UiPtr gui, const bool always_dirty) {
     gui->clear_background();
-    if (gui->table.dirty) {
+    if (gui->table.dirty || always_dirty) {
         gui->draw();
         gui->table.dirty = false;
     }

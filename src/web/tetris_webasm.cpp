@@ -19,7 +19,8 @@ static char request_data[100];
 UiPtr gui = std::make_unique<UiSdl>();
 
 void mainloop() {
-    mainloop(gui);
+    const bool always_dirty = true;
+    mainloop(gui, always_dirty);
 }
 
 /*
