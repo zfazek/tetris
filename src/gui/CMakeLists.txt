@@ -9,7 +9,9 @@ add_library(gui_txt
 )
 
 target_link_libraries(gui_sdl
-    tetris-lib)
+    tetris-lib
+)
 
 target_link_libraries(gui_txt
-    tetris-lib)
+    tetris-lib
+)

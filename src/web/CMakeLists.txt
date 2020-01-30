@@ -10,6 +10,5 @@ add_executable(index
 )
 
 target_link_libraries(index
-    tetris-lib
     gui_sdl
 )
