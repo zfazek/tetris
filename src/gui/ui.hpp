@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game_state.hpp"
+#include "move.hpp"
 #include "table.hpp"
 
 #include <memory>
@@ -26,6 +27,9 @@ public:
     Table table;
     GameState game_state;
     bool ai_mode = false;
+
+private:
+    void add_move(std::vector<Move>& moves, TetrominoPtr tetromino) const;
 };
 
 typedef std::shared_ptr<Ui> UiPtr;

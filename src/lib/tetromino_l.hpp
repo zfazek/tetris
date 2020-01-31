@@ -4,17 +4,19 @@
 
 class LTetromino : public Tetromino {
 public:
-    LTetromino() {
-        buffer[1][1] = BLOCK;
-        buffer[1][2] = BLOCK;
-        buffer[1][3] = BLOCK;
-        buffer[2][1] = BLOCK;
-    }
-
     char get_block() const override {
         return BLOCK;
     }
 
+    BufferT get_buffer(const int buffer_index) const {
+        return BUFFERS[buffer_index];
+    }
+
+    int get_buffers_size() const {
+        return BUFFERS.size();
+    }
+
 private:
     static constexpr char BLOCK = 'L';
+    static const std::vector<BufferT> BUFFERS;
 };

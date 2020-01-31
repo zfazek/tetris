@@ -1,10 +1,18 @@
 #include "ui.hpp"
+#include "tetromino_i.hpp"
+#include "tetromino_j.hpp"
+#include "tetromino_l.hpp"
+#include "tetromino_o.hpp"
+#include "tetromino_s.hpp"
+#include "tetromino_t.hpp"
+#include "tetromino_z.hpp"
 
 #include <cstdlib>
+#include <ctime>
 
 Ui::Ui() {
     game_state = GameState::GAME;
-    srand(time(0));
+    srand(time(nullptr));
 }
 
 void Ui::handle_left_key() {
@@ -69,7 +77,14 @@ void Ui::handle_a_key() {
     ai_mode = !ai_mode;
 }
 
+void Ui::add_move(std::vector<Move>& moves, TetrominoPtr tetromino) const {
+    for (int x = -1; x < table.WIDTH; ++x) {
+    }
+}
+
 void Ui::make_ai_move() {
+    std::vector<Move> moves;
+    add_move(moves, std::make_unique<ITetromino>());
     const int move = rand() % 4;
     switch (move) {
         case 0:

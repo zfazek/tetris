@@ -65,10 +65,10 @@ void UiText::draw_tetromino() const {
     attron(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.tetromino->get_block())));
     for (int i = 0; i < table.tetromino->SIZE; ++i) {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
-            if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
+            if (table.tetromino->get_buffer(table.tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
                 mvaddch(table.tetromino->get_y() + i + 1,
                         table.tetromino->get_x() + j + 1,
-                        table.tetromino->buffer[i][j]);
+                        table.tetromino->get_buffer(table.tetromino->buffer_index)[i][j]);
             }
         }
     }
@@ -86,10 +86,10 @@ void UiText::draw_next_tetromino() const {
     attron(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.next_tetromino->get_block())));
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
-            if (table.next_tetromino->buffer[i][j] == table.next_tetromino->get_block()) {
+            if (table.next_tetromino->get_buffer(0)[i][j] != Tetromino::EMPTY) {
                 mvaddch(table.next_tetromino->get_y() + i + 1,
                         table.next_tetromino->get_x() + j + 1,
-                        table.next_tetromino->buffer[i][j]);
+                        table.next_tetromino->get_buffer(0)[i][j]);
             }
         }
     }

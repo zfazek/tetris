@@ -53,41 +53,35 @@ void Table::new_tetromino() {
             next_tetromino = std::make_unique<ZTetromino>();
             break;
     }
-    next_tetromino->set_x(12);
+    next_tetromino->set_x(WIDTH + 2);
     next_tetromino->set_y(4);
 }
 
-void Table::rotate_tetromino() {
-    char tmp_buffer[tetromino->SIZE][tetromino->SIZE];
+bool Table::rotate_tetromino() {
+    const int new_buffer_index = (tetromino->buffer_index + 1) % tetromino->get_buffers_size();
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
-            const int new_i = tetromino->SIZE - 1 - j;
-            const int new_j = i;
-            if (tetromino->buffer[i][j] != Tetromino::EMPTY) {
-                if (buffer[tetromino->get_y() + new_i][tetromino->get_x() + new_j] != Tetromino::EMPTY) {
-                    return;
+            if (tetromino->get_buffer(new_buffer_index)[i][j] != Tetromino::EMPTY) {
+                if (buffer[tetromino->get_y() + i][tetromino->get_x() + j] != Tetromino::EMPTY) {
+                    return false;
                 }
-                if (tetromino->get_x() + new_j < 0) {
-                    return;
+                if (tetromino->get_x() + j < 0) {
+                    return false;
                 }
-                if (tetromino->get_x() + new_j >= WIDTH) {
-                    return;
+                if (tetromino->get_x() + j >= WIDTH) {
+                    return false;
                 }
-                if (tetromino->get_y() + new_i < 0) {
-                    return;
+                if (tetromino->get_y() + i < 0) {
+                    return false;
                 }
-                if (tetromino->get_y() + new_i >= HEIGHT) {
-                    return;
+                if (tetromino->get_y() + i >= HEIGHT) {
+                    return false;
                 }
             }
-            tmp_buffer[new_i][new_j] = tetromino->buffer[i][j];
         }
     }
-    for (int i = 0; i < tetromino->SIZE; ++i) {
-        for (int j = 0; j < tetromino->SIZE; ++j) {
-            tetromino->buffer[i][j] = tmp_buffer[i][j];
-        }
-    }
+    tetromino->buffer_index = new_buffer_index;
+    return true;
 }
 
 void Table::clear_buffer() {
@@ -101,7 +95,7 @@ void Table::clear_buffer() {
 bool Table::is_empty_below_tetromino() const {
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
-            if (tetromino->buffer[i][j] == tetromino->get_block()) {
+            if (tetromino->get_buffer(tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
                 if (tetromino->get_y() + i >= HEIGHT - 1) {
                     return false;
                 }
@@ -117,7 +111,7 @@ bool Table::is_empty_below_tetromino() const {
 bool Table::is_empty_right_to_tetromino() const {
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
-            if (tetromino->buffer[i][j] == tetromino->get_block()) {
+            if (tetromino->get_buffer(tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
                 if (tetromino->get_x() + j >= WIDTH - 1) {
                     return false;
                 }
@@ -133,7 +127,7 @@ bool Table::is_empty_right_to_tetromino() const {
 bool Table::is_empty_left_to_tetromino() const {
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
-            if (tetromino->buffer[i][j] == tetromino->get_block()) {
+            if (tetromino->get_buffer(tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
                 if (tetromino->get_x() + j <= 0) {
                     return false;
                 }
@@ -188,8 +182,8 @@ void Table::remove_completed_lines() {
 void Table::put_tetromino() {
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
-            if (tetromino->buffer[i][j] == tetromino->get_block()) {
-                buffer[tetromino->get_y() + i][tetromino->get_x() + j] = tetromino->buffer[i][j];
+            if (tetromino->get_buffer(tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
+                buffer[tetromino->get_y() + i][tetromino->get_x() + j] = tetromino->get_buffer(tetromino->buffer_index)[i][j];
             }
         }
     }

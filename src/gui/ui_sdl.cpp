@@ -6,6 +6,7 @@ UiSdl::UiSdl() {
         exit(1);
     }
     SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC, &window, &renderer);
+    SDL_SetWindowTitle(window, "FZTetris");
     TTF_Init();
     font = TTF_OpenFont("ocraext.ttf", HEIGHT / 30);
     if (font == nullptr) {
@@ -105,7 +106,7 @@ void UiSdl::draw_rect(const int x, const int y, const char c) const {
         case '#':
             SDL_SetRenderDrawColor(renderer, 90, 90, 90, 0);
             break;
-        case 'X':
+        case 'I':
             SDL_SetRenderDrawColor(renderer, 0, 255, 255, 0);
             break;
         case 'O':
@@ -136,10 +137,10 @@ void UiSdl::draw_rect(const int x, const int y, const char c) const {
 void UiSdl::draw_tetromino() const {
     for (int i = 0; i < table.tetromino->SIZE; ++i) {
         for (int j = 0; j < table.tetromino->SIZE; ++j) {
-            if (table.tetromino->buffer[i][j] == table.tetromino->get_block()) {
+            if (table.tetromino->get_buffer(table.tetromino->buffer_index)[i][j] != Tetromino::EMPTY) {
                 draw_rect(table.tetromino->get_x() + j + 1,
                           table.tetromino->get_y() + i + 1,
-                          table.tetromino->buffer[i][j]);
+                          table.tetromino->get_buffer(table.tetromino->buffer_index)[i][j]);
             }
         }
     }
@@ -155,10 +156,10 @@ void UiSdl::draw_next_tetromino() const {
     }
     for (int i = 0; i < table.next_tetromino->SIZE; ++i) {
         for (int j = 0; j < table.next_tetromino->SIZE; ++j) {
-            if (table.next_tetromino->buffer[i][j] == table.next_tetromino->get_block()) {
+            if (table.next_tetromino->get_buffer(0)[i][j] != Tetromino::EMPTY) {
                 draw_rect(table.next_tetromino->get_x() + j + 1,
                           table.next_tetromino->get_y() + i + 1,
-                          table.next_tetromino->buffer[i][j]);
+                          table.next_tetromino->get_buffer(0)[i][j]);
             }
         }
     }

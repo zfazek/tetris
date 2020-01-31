@@ -7,7 +7,7 @@ public:
     Table();
     void init();
     void new_tetromino();
-    void rotate_tetromino();
+    bool rotate_tetromino();
     void clear_buffer();
     bool update(const float elapsed_time);
     bool is_empty_below_tetromino() const;

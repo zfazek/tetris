@@ -2,4 +2,11 @@ add_library(tetris-lib
     mainloop.cpp
     table.cpp
     tetromino.cpp
+    tetromino_i.cpp
+    tetromino_j.cpp
+    tetromino_l.cpp
+    tetromino_o.cpp
+    tetromino_s.cpp
+    tetromino_t.cpp
+    tetromino_z.cpp
 )
