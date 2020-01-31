@@ -65,7 +65,7 @@ void Ui::handle_r_key() {
         table.init();
         game_state = GameState::GAME;
         table.dirty = true;
-        ai_mode = false;
+        ai_mode = AImode::NONE;
     }
 }
 
@@ -74,30 +74,67 @@ void Ui::handle_q_key() {
 }
 
 void Ui::handle_a_key() {
-    ai_mode = !ai_mode;
+    if (ai_mode == AImode::NONE) {
+        ai_mode = AImode::READY;
+    } else {
+        ai_mode = AImode::NONE;
+    }
 }
 
-void Ui::add_move(std::vector<Move>& moves, TetrominoPtr tetromino) const {
+void Ui::add_moves(std::vector<Move>& moves) const {
     for (int x = -1; x < table.WIDTH; ++x) {
+        for (int i = 0; i < table.tetromino->get_buffers_size(); ++i) {
+            if (table.is_tetromino_placeable(x, 0, i)) {
+                moves.push_back({x, i});
+            }
+        }
     }
 }
 
 void Ui::make_ai_move() {
-    std::vector<Move> moves;
-    add_move(moves, std::make_unique<ITetromino>());
-    const int move = rand() % 4;
-    switch (move) {
-        case 0:
-            handle_left_key();
-            break;
-        case 1:
-            handle_right_key();
-            break;
-        case 2:
-            handle_up_key();
-            break;
-        case 3:
-            handle_down_key();
-            break;
+    if (ai_mode == AImode::READY) {
+        std::vector<Move> moves;
+        add_moves(moves);
+        const int move_idx = rand() % moves.size();
+        ai_move.x = moves[move_idx].x;
+        ai_move.buffer_index = moves[move_idx].buffer_index;
+        ai_mode = AImode::IN_PROGRESS;
+    } else if (ai_mode == AImode::IN_PROGRESS) {
+        if (table.tetromino->buffer_index == ai_move.buffer_index) {
+            if (table.tetromino->get_x() == ai_move.x) {
+                handle_space_key();
+                ai_mode = AImode::READY;
+            } else if (table.tetromino->get_x() < ai_move.x) {
+                handle_right_key();
+            } else if (table.tetromino->get_x() > ai_move.x) {
+                handle_left_key();
+            }
+        } else {
+            table.tetromino->buffer_index =
+                (table.tetromino->buffer_index + 1) % table.tetromino->get_buffers_size();
+        }
     }
+}
+
+bool Ui::update(const float elapsed_time) {
+    table.delta_time += elapsed_time;
+    if (table.delta_time < table.max_delta_time / (1 + table.get_level() * 0.05)) {
+        return false;
+    }
+    table.dirty = true;
+    table.delta_time = 0.0f;
+    if (ai_mode != AImode::NONE) {
+        make_ai_move();
+    }
+    if (table.is_empty_below_tetromino()) {
+        table.tetromino->move_down();
+    } else {
+        table.put_tetromino();
+        table.remove_completed_lines();
+        table.new_tetromino();
+        if (!table.is_empty_below_tetromino()) {
+            return true;
+        }
+    }
+    return false;
 }

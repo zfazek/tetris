@@ -96,7 +96,7 @@ void UiText::draw_next_tetromino() const {
     attroff(COLOR_PAIR(Tetromino::COLOR_IDXS.at(table.next_tetromino->get_block())));
 }
 
-void UiText::update() {
+void UiText::handle_input() {
     int key = getch();
     flushinp();
     switch (key) {

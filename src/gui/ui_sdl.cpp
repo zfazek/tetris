@@ -53,12 +53,12 @@ void UiSdl::draw() const {
     draw_text(TEXT_X, TEXT_HEIGHT, TEXT_WIDTH, TEXT_HEIGHT, lines_str, color);
     const std::string score_str = "Score: " + std::to_string(table.get_score());
     draw_text(TEXT_X, TEXT_HEIGHT * 2, TEXT_WIDTH, TEXT_HEIGHT, score_str, color);
-    const std::string next_str = "Next: ";
+    const std::string next_str = "Next:   ";
     draw_text(TEXT_X, TEXT_HEIGHT * 3, TEXT_WIDTH, TEXT_HEIGHT, next_str, color);
     SDL_RenderPresent(renderer);
 }
 
-void UiSdl::update() {
+void UiSdl::handle_input() {
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN:

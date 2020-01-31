@@ -62,9 +62,6 @@ bool Table::rotate_tetromino() {
     for (int i = 0; i < tetromino->SIZE; ++i) {
         for (int j = 0; j < tetromino->SIZE; ++j) {
             if (tetromino->get_buffer(new_buffer_index)[i][j] != Tetromino::EMPTY) {
-                if (buffer[tetromino->get_y() + i][tetromino->get_x() + j] != Tetromino::EMPTY) {
-                    return false;
-                }
                 if (tetromino->get_x() + j < 0) {
                     return false;
                 }
@@ -75,6 +72,9 @@ bool Table::rotate_tetromino() {
                     return false;
                 }
                 if (tetromino->get_y() + i >= HEIGHT) {
+                    return false;
+                }
+                if (buffer[tetromino->get_y() + i][tetromino->get_x() + j] != Tetromino::EMPTY) {
                     return false;
                 }
             }
@@ -189,22 +189,27 @@ void Table::put_tetromino() {
     }
 }
 
-bool Table::update(const float elapsed_time) {
-    delta_time += elapsed_time;
-    if (delta_time < max_delta_time / (1 + get_level() * 0.05)) {
-        return false;
-    }
-    dirty = true;
-    delta_time = 0.0f;
-    if (is_empty_below_tetromino()) {
-        tetromino->move_down();
-    } else {
-        put_tetromino();
-        remove_completed_lines();
-        new_tetromino();
-        if (!is_empty_below_tetromino()) {
-            return true;
+bool Table::is_tetromino_placeable(const int x, const int y, const int buffer_index) const {
+    for (int i = 0; i < tetromino->SIZE; ++i) {
+        for (int j = 0; j < tetromino->SIZE; ++j) {
+            if (tetromino->get_buffer(buffer_index)[i][j] != Tetromino::EMPTY) {
+                if (x + j < 0) {
+                    return false;
+                }
+                if (x + j >= WIDTH) {
+                    return false;
+                }
+                if (y + i < 0) {
+                    return false;
+                }
+                if (y + i >= HEIGHT) {
+                    return false;
+                }
+                if (buffer[y + i][x + j] != Tetromino::EMPTY) {
+                    return false;
+                }
+            }
         }
     }
-    return false;
+    return true;
 }

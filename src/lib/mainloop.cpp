@@ -15,13 +15,10 @@ void mainloop(UiPtr gui, const bool always_dirty) {
         const float elapsed_sec =
             std::chrono::duration<float, std::milli>(current_time - prev_time).count() / 1000.0f;
         prev_time = current_time;
-        const bool end = gui->table.update(elapsed_sec);
+        const bool end = gui->update(elapsed_sec);
         if (end) {
             gui->game_state = GameState::WAIT_FOR_RESTART;
         }
     }
-    gui->update();
-    if (gui->ai_mode) {
-        gui->make_ai_move();
-    }
+    gui->handle_input();
 }

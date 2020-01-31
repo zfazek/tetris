@@ -9,13 +9,15 @@ public:
     void new_tetromino();
     bool rotate_tetromino();
     void clear_buffer();
-    bool update(const float elapsed_time);
     bool is_empty_below_tetromino() const;
     bool is_empty_right_to_tetromino() const;
     bool is_empty_left_to_tetromino() const;
+    bool is_tetromino_placeable(const int x, const int y, const int buffer_index) const;
     int get_level() const;
     int get_cleared_lines() const;
     int get_score() const;
+    void remove_completed_lines();
+    void put_tetromino();
 
     static constexpr int WIDTH = 10;
     static constexpr int HEIGHT = 24;
@@ -24,12 +26,8 @@ public:
     TetrominoPtr tetromino;
     TetrominoPtr next_tetromino;
     bool dirty = true;
-
-private:
-    float max_delta_time = 0.3f;
     float delta_time = 0.0f;
-    void remove_completed_lines();
-    void put_tetromino();
+    float max_delta_time = 0.3f;
 
     int cleared_lines = 0;
     int score = 0;

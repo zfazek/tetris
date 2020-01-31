@@ -17,7 +17,7 @@ public:
     ~UiSdl();
 
     void draw() const override;
-    void update() override;
+    void handle_input() override;
     void clear_background() const override;
 
 private:

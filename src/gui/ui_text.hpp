@@ -7,7 +7,7 @@ public:
     UiText();
     ~UiText() override;
     void draw() const override;
-    void update() override;
+    void handle_input() override;
 
 private:
     void init();
