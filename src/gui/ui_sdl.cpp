@@ -89,7 +89,16 @@ void UiSdl::handle_input() {
                         break;
                     case SDLK_a:
                         handle_a_key();
+                        break;
                 }
+                break;
+            case SDL_WINDOWEVENT:
+                switch (event.window.event) {
+                    case SDL_WINDOWEVENT_CLOSE:
+                        handle_q_key();
+                        break;
+                }
+                break;
         }
     }
 }
